@@ -1,0 +1,28 @@
+{
+  "name": "project-x",
+  "version": "1.0.0",
+  "description": "Pavlo Mitskelevych, РЕ_19_Online",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/mitskelevitchp/advanced-css.git"
+  },
+  "author": "Pavlo Mitskelevych",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/mitskelevitchp/advanced-css/issues"
+  },
+  "homepage": "https://gitlab.com/mitskelevitchp/advanced-css#readme",
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.29.1",
+    "eslint": "^8.39.0",
+    "gulp": "^4.0.2"
+  }
+}
