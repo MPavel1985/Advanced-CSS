@@ -15,5 +15,15 @@
   "bugs": {
     "url": "https://gitlab.com/mitskelevitchp/advanced-css/tree/main/hw-2/issues"
   },
-  "homepage": "https://github.com/MPavel1985/Advanced-CSS/tree/main/HW-2"
+  "homepage": "https://github.com/MPavel1985/Advanced-CSS/tree/main/HW-2",
+  "devDependencies": {
+    "browser-sync": "^2.29.1",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^5.1.0",
+    "gulp-uglify-es": "^3.0.0",
+    "sass": "^1.62.1"
+  }
 }
