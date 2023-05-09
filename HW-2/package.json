@@ -4,8 +4,16 @@
   "description": "For Homework 2 of Advanced HTML/CSS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/mitskelevitchp/advanced-css/tree/main/hw-2.git"
   },
   "author": "Pavlo Mitskelevych, PE_19_Online",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/mitskelevitchp/advanced-css/tree/main/hw-2/issues"
+  },
+  "homepage": "https://github.com/MPavel1985/Advanced-CSS/tree/main/HW-2"
 }
