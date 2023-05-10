@@ -12,14 +12,43 @@ const avif = require("gulp-avif");
 // const webp = require("gulp-webp");
 // * gulp-imagemin works with PNG, JPEG, GIF and SVG
 // const imagemin = require("gulp-imagemin");
+// * for not using pictures with which we have worked earlier - plug for cache
+const newer = require("gulp-newer");
+const fonter = require("gulp-fonter");
+const ttf2woff2 = require("gulp-ttf2woff2");
+const include = require("gulp-include");
+
+function makePages() {
+  return src("app/pages/*.html")
+    .pipe(
+      include({
+        includePaths: "app/components",
+      })
+    )
+    .pipe(dest("app"))
+    .pipe(browserSync.stream());
+}
+
+function fonts() {
+  return src("app/fonts/*.*")
+    .pipe(
+      fonter({
+        formats: ["woff", "ttf"],
+      })
+    )
+    .pipe(src("app/fonts/*.ttf"))
+    .pipe(ttf2woff2())
+    .pipe(dest("app/fonts"));
+}
 
 function images() {
   return (
-    src(["app/images/**/*.*", "!app/images/**/*.svg"])
-      // if we need to use one more plug for another type of images, have to use before the next ".pipe" the way "src("app/images/**/*.*")" one more time. Because we don't need to use every next plug for pictures that have already been converted after previous one plug
+    src("app/images-app/**/*.*")
+      // if we need to use one more plug for another type of images, have to use before the next ".pipe" the way "src("app/images/**/*.*")" one more time. Because we don't need to use every next plug for pictures that have already been converted after the previous one plug
+      // we use plug "newer" before every converter-plug
+      .pipe(newer("app/images"))
       .pipe(avif())
-      // ! dist?
-      .pipe(dest("app/images/dist"))
+      .pipe(dest("app/images"))
   );
 }
 
@@ -47,8 +76,10 @@ function watching() {
       baseDir: "app/",
     },
   });
+
   watch(["app/scss/style.scss"], styles);
   watch(["app/js/main.js"], scripts);
+  watch(["app/components/**", "app/pages/**"], makePages);
   watch(["app/*.html"]).on("change", browserSync.reload);
 }
 
@@ -56,14 +87,15 @@ function cleanDist() {
   return src("dist").pipe(clean());
 }
 
-// !!! images + ...
 function building() {
   return src(
     [
       "app/css/style.min.css",
       "app/js/main.min.js",
+      "app/images/**/*.*",
+      "app/fonts/*.woff",
+      "app/fonts/*.woff2",
       "app/*.html",
-      "app/images/dist/**/*.*",
     ],
     {
       base: "app",
@@ -72,11 +104,14 @@ function building() {
 }
 
 exports.images = images;
+exports.fonts = fonts;
 exports.styles = styles;
 exports.scripts = scripts;
 exports.watching = watching;
+exports.building = building;
+exports.makePages = makePages;
 
 // gulp
-exports.default = parallel(images, styles, scripts, watching);
+exports.default = parallel(images, fonts, makePages, styles, scripts, watching);
 // gulp build >>> dist
 exports.build = series(cleanDist, building);
