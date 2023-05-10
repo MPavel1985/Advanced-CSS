@@ -22,8 +22,12 @@
     "gulp-autoprefixer": "^8.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-concat": "^2.6.1",
+    "gulp-cwebp": "^4.0.2",
     "gulp-sass": "^5.1.0",
     "gulp-uglify-es": "^3.0.0",
     "sass": "^1.62.1"
+  },
+  "dependencies": {
+    "gulp-avif": "^1.1.1"
   }
 }
