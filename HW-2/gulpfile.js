@@ -1,6 +1,7 @@
 const { src, dest, watch, series, parallel } = require("gulp");
 
 const scss = require("gulp-sass")(require("sass"));
+const htmlMinify = require("gulp-html-minifier-terser");
 const concat = require("gulp-concat");
 const uglify = require("gulp-uglify-es").default;
 const browserSync = require("browser-sync").create();
@@ -25,14 +26,10 @@ function fonts() {
 }
 
 function images() {
-  return (
-    src("src/images-src/**/*.*")
-      // if we need to use one more plug for another type of images, have to use before the next ".pipe" the way "src("src/images/**/*.*")" one more time. Because we don't need to use every next plug for pictures that have already been converted after the previous one plug
-      // we use plug "newer" before every converter-plug
-      .pipe(newer("src/images"))
-      .pipe(avif())
-      .pipe(dest("src/images"))
-  );
+  return src("src/images-src/**/*.*")
+    .pipe(newer("src/images"))
+    .pipe(avif())
+    .pipe(dest("src/images"));
 }
 
 function scripts() {
@@ -52,6 +49,13 @@ function styles() {
     .pipe(browserSync.stream());
 }
 
+function doHtml() {
+  return src("src/pages/index.html")
+    .pipe(htmlMinify({ collapseWhitespace: true }))
+    .pipe(dest("src"))
+    .pipe(browserSync.stream());
+}
+
 // watch method + browser
 function watching() {
   browserSync.init({
@@ -62,6 +66,7 @@ function watching() {
 
   watch(["src/scss/style.scss"], styles);
   watch(["src/js/main.js"], scripts);
+  watch(["src/pages/index.html"], doHtml);
   watch(["src/index.html"]).on("change", browserSync.reload);
 }
 
@@ -74,6 +79,7 @@ function building() {
     [
       "src/css/style.min.css",
       "src/js/main.min.js",
+      "src/**/*.html",
       "src/images/**/*.*",
       "src/fonts/*.woff",
       "src/fonts/*.woff2",
@@ -84,21 +90,19 @@ function building() {
   ).pipe(dest("dist"));
 }
 
-function buildingPage() {
-  return src("src/index.html").pipe(dest("."));
-}
-
 exports.images = images;
 exports.fonts = fonts;
 exports.styles = styles;
+exports.doHtml = doHtml;
 exports.scripts = scripts;
 exports.watching = watching;
-exports.buildingPage = buildingPage;
+exports.building = building;
+exports.cleanDist = cleanDist;
 
-// exports.default = parallel(images, fonts, styles, scripts, watching);
-// exports.build = series(cleanDist, building, buildingPage);
+exports.default = parallel(images, fonts, styles, scripts, doHtml, watching);
+exports.build = series(cleanDist, building);
 
-exports.build = parallel(cleanDist, styles, scripts, images, fonts);
-exports.dev = parallel(watching, building, buildingPage);
+// exports.build = parallel(cleanDist, styles, scripts, images, fonts);
+// exports.dev = parallel(watching, building, buildingPage);
 // обязательно ли watching в dev?
 // а cleanDist в build?
