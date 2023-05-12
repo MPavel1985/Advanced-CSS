@@ -8,10 +8,10 @@ const browserSync = require("browser-sync").create();
 const autoprefixer = require("gulp-autoprefixer");
 const clean = require("gulp-clean");
 const avif = require("gulp-avif");
-// * for not using pictures with which we have worked earlier - plug for cache
 const newer = require("gulp-newer");
 const fonter = require("gulp-fonter");
 const ttf2woff2 = require("gulp-ttf2woff2");
+const replace = require("gulp-replace");
 
 function fonts() {
   return src("src/fonts/*.*")
@@ -25,11 +25,19 @@ function fonts() {
     .pipe(dest("src/fonts"));
 }
 
-function images() {
-  return src("src/images-src/**/*.*")
-    .pipe(newer("src/images"))
-    .pipe(avif())
-    .pipe(dest("src/images"));
+function doHtml() {
+  return src("src/pages/index.html")
+    .pipe(htmlMinify({ collapseWhitespace: true }))
+    .pipe(dest("src"))
+    .pipe(browserSync.stream());
+}
+function styles() {
+  return src("src/scss/style.scss", { sourcemaps: true })
+    .pipe(autoprefixer())
+    .pipe(concat("style.min.css"))
+    .pipe(scss({ outputStyle: "compressed" }))
+    .pipe(dest("src/css", { sourcemaps: "." }))
+    .pipe(browserSync.stream());
 }
 
 function scripts() {
@@ -40,20 +48,18 @@ function scripts() {
     .pipe(browserSync.stream());
 }
 
-function styles() {
-  return src("src/scss/style.scss", { sourcemaps: true })
-    .pipe(autoprefixer())
-    .pipe(concat("style.min.css"))
-    .pipe(scss({ outputStyle: "compressed" }))
-    .pipe(dest("src/css", { sourcemaps: "." }))
-    .pipe(browserSync.stream());
+function images() {
+  return src("src/images-src/**/*.*")
+    .pipe(newer("src/images"))
+    .pipe(avif())
+    .pipe(dest("src/images"));
 }
 
-function doHtml() {
-  return src("src/pages/index.html")
-    .pipe(htmlMinify({ collapseWhitespace: true }))
-    .pipe(dest("src"))
-    .pipe(browserSync.stream());
+function doReplace() {
+  return src("dist/index.html")
+    .pipe(replace('href="css/style.min.css"', 'href="dist/css/style.min.css"'))
+    .pipe(replace('src="js/main.min.js"', 'src="dist/js/main.min.js"'))
+    .pipe(dest("."));
 }
 
 // watch method + browser
@@ -90,19 +96,18 @@ function building() {
   ).pipe(dest("dist"));
 }
 
+exports.doHtml = doHtml;
+exports.styles = styles;
+exports.scripts = scripts;
 exports.images = images;
 exports.fonts = fonts;
-exports.styles = styles;
-exports.doHtml = doHtml;
-exports.scripts = scripts;
 exports.watching = watching;
 exports.building = building;
 exports.cleanDist = cleanDist;
+exports.doReplace = doReplace;
 
 exports.default = parallel(images, fonts, styles, scripts, doHtml, watching);
-exports.build = series(cleanDist, building);
+exports.build = series(cleanDist, building, doReplace);
 
 // exports.build = parallel(cleanDist, styles, scripts, images, fonts);
 // exports.dev = parallel(watching, building, buildingPage);
-// обязательно ли watching в dev?
-// а cleanDist в build?
