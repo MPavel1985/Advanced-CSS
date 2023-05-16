@@ -1,11 +1,14 @@
 const { src, dest, watch, series, parallel } = require("gulp");
 
-const scss = require("gulp-sass")(require("sass"));
-const htmlMinify = require("gulp-html-minifier-terser");
+const sass = require("gulp-sass")(require("sass"));
+// const scss = require("postcss-scss");
+const postcss = require("gulp-postcss");
+const autoprefixer = require("gulp-autoprefixer");
 const concat = require("gulp-concat");
+//
+const htmlMinify = require("gulp-html-minifier-terser");
 const uglify = require("gulp-uglify-es").default;
 const browserSync = require("browser-sync").create();
-const autoprefixer = require("gulp-autoprefixer");
 const clean = require("gulp-clean");
 const avif = require("gulp-avif");
 const newer = require("gulp-newer");
@@ -31,11 +34,13 @@ function doHtml() {
     .pipe(dest("src"))
     .pipe(browserSync.stream());
 }
+
 function styles() {
   return src("src/scss/style.scss", { sourcemaps: true })
+    .pipe(sass({ outputStyle: "compressed" }))
+    .pipe(postcss())
     .pipe(autoprefixer())
     .pipe(concat("style.min.css"))
-    .pipe(scss({ outputStyle: "compressed" }))
     .pipe(dest("src/css", { sourcemaps: "." }))
     .pipe(browserSync.stream());
 }
@@ -56,24 +61,31 @@ function images() {
 }
 
 function doReplace() {
-  return src("dist/index.html")
-    .pipe(replace('href="css/style.min.css"', 'href="dist/css/style.min.css"'))
-    .pipe(replace('src="js/main.min.js"', 'src="dist/js/main.min.js"'))
-    .pipe(dest("."));
+  return (
+    src("dist/index.html")
+      .pipe(
+        replace('href="css/style.min.css"', 'href="dist/css/style.min.css"')
+      )
+      .pipe(replace('href="css/reset.css"', 'href="dist/css/reset.css"'))
+      .pipe(replace('src="js/main.min.js"', 'src="dist/js/main.min.js"'))
+      .pipe(replace(/(src|href)=["']\.\.\/images/g, '$1="dist/images'))
+      // ! root folder (".") here we use because we have this condition in DAN-IT HW. instead of this use "dist" - for index.html in dist-folder
+      .pipe(dest("."))
+  );
 }
 
 // watch method + browser
 function watching() {
   browserSync.init({
     server: {
-      baseDir: "src/",
+      baseDir: "./src",
     },
   });
 
-  watch(["src/scss/style.scss"], styles);
+  watch(["src/scss/*.scss"], styles);
   watch(["src/js/main.js"], scripts);
   watch(["src/pages/index.html"], doHtml);
-  watch(["src/index.html"]).on("change", browserSync.reload);
+  // watch(["src/index.html"]).on("change", browserSync.reload);
 }
 
 function cleanDist() {
@@ -83,7 +95,7 @@ function cleanDist() {
 function building() {
   return src(
     [
-      "src/css/style.min.css",
+      "src/css/*.css",
       "src/js/main.min.js",
       "src/**/*.html",
       "src/images/**/*.*",
