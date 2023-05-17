@@ -31,9 +31,3 @@ ol,
 ul {
   list-style: none;
 }
-
-*::before,
-*::after {
-  content: "";
-  box-sizing: border-box;
-}

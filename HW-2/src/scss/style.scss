@@ -17,22 +17,32 @@
 
 //
 // Basic styles
-html {
-  min-width: 1200px;
-}
+// html {
+//   min-width: 1200px;
+// }
 
 body {
   font-family: "Roboto", sans-serif;
   color: variables.$main-headline-fcolor;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 .container,
 .headline-wrapper {
-  width: 1170px;
+  // @media only screen and (min-width: 320px) {
+  //   width: 320px;
+  // }
+
+  @media only screen and (min-width: 768px) {
+    width: 768px;
+  }
+
+  @media only screen and (min-width: 1120px) {
+    width: 1170px;
+  }
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .container,
@@ -49,15 +59,30 @@ a:hover {
 
 //
 // Header
-.nav__list,
-.posts__post,
-.headline-wrapper {
-  @include mixins.flexbox(space-between, flex-start, row);
+.header {
+  @media only screen and (min-width: 320px) {
+    padding: 23px 0px 23px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    width: 609px;
+    padding: 41px 0px 43px;
+  }
+
+  @media only screen and (min-width: 1120px) {
+    width: 813px;
+    padding: 45px 0px 51px;
+  }
 }
 
 .nav {
-  width: 813px;
-  margin: 45px 0px 51px;
+  @media only screen and (min-width: 320px) {
+    display: none;
+  }
+
+  @media only screen and (min-width: 768px) {
+    @include mixins.flexbox(space-between, flex-start, row);
+  }
 }
 
 .nav__item,
@@ -83,23 +108,59 @@ a:hover {
 //
 // Main
 // main pictures
+// !!!!!!!!!!!!!!!!!!!!!!! повтор длины с контенйнером
 .main-picture {
   background-image: url("../images/header.avif");
-  height: 550px;
+  background-size: cover;
+
+  @media only screen and (min-width: 320px) {
+    height: 150px;
+    width: 320px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    height: 361px;
+    width: 768px;
+  }
+
+  @media only screen and (min-width: 1120px) {
+    height: 550px;
+    width: 1120px;
+  }
 }
 //
 
 //
 // reccent posts
 .posts-wrapper {
-  padding: 69px 0px 37px;
+  @media only screen and (min-width: 320px) {
+    padding: 42px 0px 0px 25px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    padding: 59px 0px 60px;
+  }
+
+  @media only screen and (min-width: 1120px) {
+    padding: 69px 0px 37px;
+  }
+
   @include mixins.flexbox(center, flex-start, column);
 }
 
+.headline {
+  @media only screen and (min-width: 320px) {
+    font-size: variables.$font-size-l;
+  }
+
+  @media only screen and (min-width: 768px) {
+    font-size: variables.$font-size-xl;
+  }
+}
+
 .headline,
-.posts__headline,
-.footer__contacts {
-  font-size: variables.$font-size-xl;
+.posts__headline {
+  font-weight: variables.$font-weight-l;
 }
 
 .headline,
@@ -123,11 +184,51 @@ a:hover {
 }
 
 .posts {
-  width: 100%;
-  height: 355px;
-  grid-template-columns: 1fr 1fr;
+  @media only screen and (min-width: 320px) {
+    width: 555px;
+    grid-template-columns: 1fr;
+  }
+
+  @media only screen and (min-width: 768px) {
+    width: 555px;
+    grid-template-columns: 1fr;
+  }
+
+  @media only screen and (min-width: 1120px) {
+    width: 100%;
+    height: 355px;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 55px;
+  }
+
   grid-row-gap: 32px;
-  grid-column-gap: 55px;
+}
+
+.posts__post,
+.headline-wrapper {
+  @include mixins.flexbox(space-between, flex-start, row);
+}
+
+.posts__post {
+  @media only screen and (min-width: 320px) {
+    display: block;
+    height: 196px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    @include mixins.flexbox(space-between, flex-start, row);
+    height: 140px;
+  }
+}
+
+.posts__post--mobile {
+  @media only screen and (min-width: 320px) {
+    display: none;
+  }
+
+  @media only screen and (min-width: 768px) {
+    display: flex;
+  }
 }
 
 .posts__image {
@@ -140,12 +241,29 @@ a:hover {
 }
 
 .posts__headline {
+  @media only screen and (min-width: 320px) {
+    font-size: variables.$font-size-l;
+  }
+
+  @media only screen and (min-width: 768px) {
+    font-size: variables.$font-size-xl;
+  }
+}
+
+.posts__headline {
   text-transform: capitalize;
   line-height: variables.$line-height-xxl;
 }
 
 .posts__links {
-  font-size: variables.$font-size-m;
+  @media only screen and (min-width: 320px) {
+    font-size: variables.$font-size-s;
+  }
+
+  @media only screen and (min-width: 768px) {
+    font-size: variables.$font-size-m;
+  }
+
   color: variables.$main-small-text-fcolor;
   line-height: variables.$line-height-s;
   margin-bottom: 13px;
@@ -156,14 +274,18 @@ a:hover {
   margin: 0px 10px;
 }
 
-.posts__paragraph,
-.footer__contacts {
-  line-height: variables.$line-height-l;
-}
-
 .posts__paragraph {
+  @media only screen and (min-width: 320px) {
+    display: none;
+  }
+
+  @media only screen and (min-width: 768px) {
+    display: block;
+  }
+
   font-size: variables.$font-size-l;
   color: variables.$main-paragraph-fcolor;
+  line-height: variables.$line-height-l;
   width: 404px;
 }
 //
@@ -171,25 +293,118 @@ a:hover {
 //
 // instagram shots
 .shots-wrapper {
-  background-color: variables.$main-bg-color;
-  padding: 46.5px 0px 49px;
+  @media only screen and (min-width: 320px) {
+    padding: 78px 47px 45px 25px;
+    align-items: start;
+    background-color: variables.$main-bg-color-mobile;
+  }
+
+  @media only screen and (min-width: 768px) {
+    padding: 46.5px 0px 50px 0px;
+    align-items: center;
+    background-color: variables.$main-bg-color;
+  }
+
+  @media only screen and (min-width: 1120px) {
+    padding: 46.5px 0px 49px;
+  }
 }
 
 .shots-text {
+  @media only screen and (min-width: 320px) {
+    display: none;
+  }
+
+  @media only screen and (min-width: 768px) {
+    display: block;
+  }
+
   font-size: variables.$font-size-l - 1px;
   @extend .headline;
 }
 
+.headline--shots {
+  @media only screen and (min-width: 768px) {
+    padding-bottom: 35.5px;
+  }
+
+  @media only screen and (min-width: 1120px) {
+    padding-bottom: 0px;
+  }
+}
+
 .shots {
+  @media only screen and (min-width: 320px) {
+    width: 301px;
+    height: 301px;
+    // justify-content: start;
+  }
+
+  @media only screen and (min-width: 768px) {
+    width: 768px;
+    height: 249px;
+    grid-column-gap: 9px;
+  }
+
+  @media only screen and (min-width: 1120px) {
+    width: auto;
+    height: 285px;
+    grid-column-gap: 10px;
+  }
+
   grid-template-columns: repeat(4, 1fr);
-  grid-column-gap: 10px;
+}
+
+.shot {
+  @media only screen and (min-width: 320px) {
+    width: 301px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    width: 249px;
+  }
+
+  @media only screen and (min-width: 1120px) {
+    width: auto;
+  }
+}
+
+.shot--mobile {
+  @media only screen and (min-width: 320px) {
+    display: none;
+  }
+
+  @media only screen and (min-width: 768px) {
+    display: inline;
+  }
+}
+
+.shot--tablet {
+  @media only screen and (min-width: 768px) {
+    display: none;
+  }
+
+  @media only screen and (min-width: 1120px) {
+    display: inline;
+  }
 }
 
 //
 // Footer
 .footer {
+  @media only screen and (min-width: 320px) {
+    padding: 38px 0px 47px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    padding: 57px 0px 56px;
+  }
+
+  @media only screen and (min-width: 1120px) {
+    padding: 66px 0px 70px;
+  }
+
   background-color: variables.$footer-bg-color;
-  padding: 66px 0px 70px;
 }
 
 .headline--footer,
@@ -211,9 +426,23 @@ a:hover {
 }
 
 .footer__text {
-  width: 684px;
+  @media only screen and (min-width: 320px) {
+    line-height: variables.$line-height-s;
+    font-size: variables.$font-size-m;
+    width: 303px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    line-height: variables.$line-height-l;
+    font-size: variables.$font-size-xl;
+    width: 684px;
+  }
+
+  @media only screen and (min-width: 1120px) {
+    line-height: variables.$line-height-xl;
+  }
+
   text-align: center;
-  line-height: variables.$line-height-xl;
 }
 
 .footer__icons {
@@ -250,6 +479,36 @@ a:hover {
 }
 
 .footer__contacts {
-  @include mixins.flexbox(flex-start, flex-start, row);
+  @media only screen and (min-width: 320px) {
+    font-size: variables.$font-size-l;
+    line-height: variables.$line-height-m-footer-mobile;
+    width: 235px;
+    display: inline;
+  }
+
+  @media only screen and (min-width: 768px) {
+    font-size: variables.$font-size-xl;
+    line-height: variables.$line-height-l;
+    width: auto;
+    @include mixins.flexbox(flex-start, flex-start, row);
+  }
+
+  > p {
+    // width: 210px;
+    display: inline-block;
+  }
+
+  > a:first-of-type {
+    display: inline-block;
+  }
+
+  text-align: center;
+}
+
+.posts__links__decor--mobile {
+  @media only screen and (min-width: 320px) {
+    margin: 0px 0px 0px 5px;
+    display: inline-block;
+  }
 }
 //
