@@ -17,10 +17,6 @@
 
 //
 // Basic styles
-// html {
-//   min-width: 1200px;
-// }
-
 body {
   font-family: "Roboto", sans-serif;
   color: variables.$main-headline-fcolor;
@@ -28,10 +24,6 @@ body {
 
 .container,
 .headline-wrapper {
-  // @media only screen and (min-width: 320px) {
-  //   width: 320px;
-  // }
-
   @media only screen and (min-width: 768px) {
     width: 768px;
   }
@@ -42,7 +34,13 @@ body {
 }
 
 a:hover {
-  text-decoration: underline;
+  @media only screen and (min-width: 320px) {
+    text-decoration: none;
+  }
+
+  @media only screen and (min-width: 768px) {
+    text-decoration: underline;
+  }
 }
 
 .container,
@@ -61,8 +59,8 @@ a:hover {
 // Header
 .header {
   @media only screen and (min-width: 320px) {
-    padding: 23px 28px 23px 0px;
-    width: 100%;
+    padding: 23px 0px 23px;
+    width: 320px;
     @include mixins.flexbox(end, flex-start, row);
   }
 
@@ -78,6 +76,8 @@ a:hover {
   }
 }
 
+//
+// menu laptop + tablet
 .nav {
   @media only screen and (min-width: 320px) {
     display: none;
@@ -88,6 +88,8 @@ a:hover {
   }
 }
 
+//
+// hamburger mobile
 .nav-mobile-wrapper {
   @media only screen and (min-width: 320px) {
     @include mixins.flexbox(center, center, row);
@@ -102,7 +104,7 @@ a:hover {
   }
 }
 
-.nav-mobile {
+.hamburger {
   &::before,
   &::after,
   & input {
@@ -146,10 +148,50 @@ a:hover {
 
   @include mixins.flexbox(center, center, column);
   gap: 2px;
-  // width: max-content;
   position: absolute;
   z-index: 1;
   cursor: pointer;
+  width: 44px;
+  height: 37px;
+}
+
+//
+// menu mobile
+.nav-mobile {
+  display: none;
+}
+
+.hamburger:has(input:checked) .nav-mobile {
+  width: 182px;
+  height: 208px;
+  background-color: variables.$nav-bg-color-mobile;
+  @include mixins.flexbox(space-between, flex-start, column);
+  padding: 4.5px 0px 4.5px 0px;
+  position: absolute;
+  top: 35px;
+  right: 0px;
+  z-index: 0;
+  font-size: variables.$font-size-s;
+  line-height: variables.$line-height-m;
+  text-transform: uppercase;
+}
+
+.hamburger:has(input:checked) .nav-mobile__item:hover {
+  background-color: variables.$nav-bg-color-mobile-hover;
+  width: 100%;
+  color: variables.$menu-hover-fcolor;
+}
+
+.nav-mobile__item {
+  box-sizing: border-box;
+  display: inline-block;
+  padding-left: 13px;
+  height: 28px;
+  @include mixins.flexbox(start, center, row);
+
+  & > a {
+    width: 169px;
+  }
 }
 
 .nav__item,
@@ -168,7 +210,7 @@ a:hover {
   font-size: variables.$font-size-s;
 
   &:hover {
-    color: variables.$menu-hover-color;
+    color: variables.$menu-hover-fcolor;
   }
 }
 
@@ -201,7 +243,7 @@ a:hover {
 // reccent posts
 .posts-wrapper {
   @media only screen and (min-width: 320px) {
-    padding: 42px 0px 0px 25px;
+    padding: 42px 0px 0px 0px;
   }
 
   @media only screen and (min-width: 768px) {
@@ -361,7 +403,8 @@ a:hover {
 // instagram shots
 .shots-wrapper {
   @media only screen and (min-width: 320px) {
-    padding: 78px 47px 45px 25px;
+    // padding: 78px 47px 45px 25px;
+    padding: 78px 47px 45px 0px;
     align-items: start;
     background-color: variables.$main-bg-color-mobile;
   }
@@ -404,7 +447,6 @@ a:hover {
   @media only screen and (min-width: 320px) {
     width: 301px;
     height: 301px;
-    // justify-content: start;
   }
 
   @media only screen and (min-width: 768px) {
@@ -461,6 +503,7 @@ a:hover {
 .footer {
   @media only screen and (min-width: 320px) {
     padding: 38px 0px 47px;
+    width: 100%;
   }
 
   @media only screen and (min-width: 768px) {
@@ -561,7 +604,6 @@ a:hover {
   }
 
   > p {
-    // width: 210px;
     display: inline-block;
   }
 

@@ -1,6 +1,6 @@
 //
 // font color
-$menu-hover-color: hsla(180, 31%, 49%, 1);
+$menu-hover-fcolor: hsla(180, 31%, 49%, 1);
 $nav-menu-bg-color: hsla(0, 0%, 0%, 1);
 
 $main-headline-fcolor: hsla(0, 0%, 31%, 1);
@@ -37,6 +37,8 @@ $line-height-xxl: 30px;
 
 //
 // background color
+$nav-bg-color-mobile: hsla(0, 0%, 96%, 1);
+$nav-bg-color-mobile-hover: hsl(0, 0%, 90%);
 $main-bg-color: hsl(0, 0%, 97%);
 $main-bg-color-mobile: hsl(0, 0%, 100%);
 $footer-bg-color: hsla(0, 0%, 0%, 1);
