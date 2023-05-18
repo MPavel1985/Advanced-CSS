@@ -58,9 +58,15 @@ a:hover {
 //
 // Header
 .header {
-  @media only screen and (min-width: 320px) {
+  @media only screen and (width: 320px) {
     padding: 23px 0px 23px;
     width: 320px;
+    @include mixins.flexbox(end, flex-start, row);
+  }
+
+  @media only screen and (min-width: 321px) {
+    padding: 23px 0px 23px;
+    width: 95vw;
     @include mixins.flexbox(end, flex-start, row);
   }
 
@@ -221,10 +227,15 @@ a:hover {
 .main-picture {
   background-image: url("../images/header.avif");
   background-size: cover;
-
-  @media only screen and (min-width: 320px) {
+  @media only screen and (width: 320px) {
     height: 150px;
     width: 320px;
+  }
+
+  @media only screen and (min-width: 321px) {
+    height: 47vw;
+    width: auto;
+    background-position: center;
   }
 
   @media only screen and (min-width: 768px) {
@@ -242,19 +253,24 @@ a:hover {
 //
 // reccent posts
 .posts-wrapper {
-  @media only screen and (min-width: 320px) {
+  @media only screen and (width: 320px) {
     padding: 42px 0px 0px 0px;
+    @include mixins.flexbox(center, flex-start, column);
+  }
+
+  @media only screen and (min-width: 321px) {
+    padding: 42px 0px 0px 0px;
+    @include mixins.flexbox(center, center, column);
   }
 
   @media only screen and (min-width: 768px) {
     padding: 59px 0px 60px;
+    @include mixins.flexbox(center, flex-start, column);
   }
 
   @media only screen and (min-width: 1120px) {
     padding: 69px 0px 37px;
   }
-
-  @include mixins.flexbox(center, flex-start, column);
 }
 
 .headline {
@@ -294,7 +310,7 @@ a:hover {
 
 .posts {
   @media only screen and (min-width: 320px) {
-    width: 555px;
+    // width: 555px;
     grid-template-columns: 1fr;
   }
 
@@ -346,7 +362,13 @@ a:hover {
 }
 
 .posts__text {
-  width: 374px;
+  @media only screen and (min-width: 320px) {
+    width: auto;
+  }
+
+  @media only screen and (min-width: 768px) {
+    width: 374px;
+  }
 }
 
 .posts__headline {
@@ -402,10 +424,17 @@ a:hover {
 //
 // instagram shots
 .shots-wrapper {
-  @media only screen and (min-width: 320px) {
-    // padding: 78px 47px 45px 25px;
-    padding: 78px 47px 45px 0px;
+  @media only screen and (width: 320px) {
+    // padding: 78px 47px 45px 0px;
+    padding: 78px 0px 45px 0px;
     align-items: start;
+    background-color: variables.$main-bg-color-mobile;
+  }
+
+  @media only screen and (min-width: 321px) {
+    // padding: 78px 47px 45px 0px;
+    padding: 78px 0px 45px 0px;
+    align-items: center;
     background-color: variables.$main-bg-color-mobile;
   }
 
