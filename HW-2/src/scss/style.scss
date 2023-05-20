@@ -23,7 +23,6 @@ body {
   color: variables.$main-headline-fcolor;
 }
 
-// delete .main-picture from here
 .container,
 .headline-wrapper {
   @media only screen and (min-width: 768px) {
@@ -51,7 +50,6 @@ a:hover {
 .nav-mobile {
   @include mixins.flexbox(center, center, column);
 }
-//
 
 .container {
   margin: 0 auto;
@@ -632,8 +630,11 @@ a:hover {
 }
 
 //
-
 @media only screen and (max-width: 767px) {
+  .posts__text {
+    padding-top: 8px;
+  }
+
   .posts__post--mobile {
     display: none;
   }
@@ -644,12 +645,6 @@ a:hover {
 
   .posts__links__decor--mobile {
     margin: 0px 0px 0px 5px;
-  }
-}
-
-@media only screen and (max-width: 767px) {
-  .posts__text {
-    padding-top: 8px;
   }
 }
 
