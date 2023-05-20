@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Advanced HTML/CSS - HW-2</title>
-    <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/style.min.css" />
     <script defer="defer" src="js/main.min.js"></script>
   </head>
@@ -12,9 +11,9 @@
     <header class="container">
       <nav class="header">
         <div class="nav-mobile-wrapper">
-          <label class="hamburger">
+          <label class="nav-mobile">
             <input type="checkbox" />
-            <ul class="nav-mobile">
+            <ul class="nav-mobile__list">
               <li class="nav-mobile__item"><a href="#">Home</a></li>
               <li class="nav-mobile__item"><a href="#">About us</a></li>
               <li class="nav-mobile__item"><a href="#">Our journal</a></li>
@@ -66,7 +65,7 @@
           </div>
           <div class="posts__post">
             <img
-              src="../images/posts/post-3.avif"
+              src="../images/posts/post-2.avif"
               alt=""
               class="posts__image"
             />
@@ -89,14 +88,14 @@
           </div>
           <div class="posts__post">
             <img
-              src="../images/posts/post-2.avif"
+              src="../images/posts/post-3.avif"
               alt=""
               class="posts__image"
             />
             <div class="posts__text">
               <a href="#"
                 ><h3 class="posts__headline">
-                  Aenean adipiscing etiam vestibulum>
+                  Aenean adipiscing etiam vestibulum
                 </h3></a
               >
               <div class="posts__links">
@@ -137,6 +136,7 @@
       </div>
       <div class="shots-wrapper">
         <div class="headline-wrapper">
+          <h2 class="headline headline--shots--mobile">Last Instagram shot</h2>
           <h2 class="headline headline--shots">Latest Instagram shots</h2>
           <p class="shots-text"><a href="#">go to our instagram page</a></p>
         </div>
@@ -171,6 +171,10 @@
         Maecenas faucibus molli interdum. Cras mattis consectetur purus sitor
         amet sed donec malesuada ullamcorper odio. Curabitur blandit tempus
         porttitor vollisky inceptos mollisestor.
+      </p>
+      <p class="footer__text footer__text--mobile">
+        Maecenas faucibus molli interdum. Cras mattis consectetur purus sitor
+        amet sed donec malesuada ullamcorper odio.
       </p>
       <div class="footer__icons">
         <a href="#"

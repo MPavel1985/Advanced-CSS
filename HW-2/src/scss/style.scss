@@ -1,5 +1,6 @@
 //
-// Imports
+// IMPORTS
+@use "./reset";
 @use "./mixins";
 @use "./variables";
 
@@ -16,19 +17,20 @@
 //
 
 //
-// Basic styles
+// BASIC styles
 body {
   font-family: "Roboto", sans-serif;
   color: variables.$main-headline-fcolor;
 }
 
+// delete .main-picture from here
 .container,
 .headline-wrapper {
   @media only screen and (min-width: 768px) {
     width: 768px;
   }
 
-  @media only screen and (min-width: 1120px) {
+  @media only screen and (min-width: 1200px) {
     width: 1170px;
   }
 }
@@ -45,7 +47,8 @@ a:hover {
 
 .container,
 .shots-wrapper,
-.footer {
+.footer,
+.nav-mobile {
   @include mixins.flexbox(center, center, column);
 }
 //
@@ -56,18 +59,19 @@ a:hover {
 //
 
 //
-// Header
+// HEADER
 .header {
-  @media only screen and (width: 320px) {
+  @media only screen and (max-width: 767px) {
     padding: 23px 0px 23px;
+    @include mixins.flexbox(flex-end, flex-start, row);
+  }
+
+  @media only screen and (max-width: 320px) {
     width: 320px;
-    @include mixins.flexbox(end, flex-start, row);
   }
 
   @media only screen and (min-width: 321px) {
-    padding: 23px 0px 23px;
     width: 95vw;
-    @include mixins.flexbox(end, flex-start, row);
   }
 
   @media only screen and (min-width: 768px) {
@@ -76,32 +80,36 @@ a:hover {
     display: block;
   }
 
-  @media only screen and (min-width: 1120px) {
+  @media only screen and (min-width: 1200px) {
     width: 813px;
-    padding: 45px 0px 51px;
+    padding: 40px 0px 56px;
   }
 }
 
 //
 // menu laptop + tablet
 .nav {
-  @media only screen and (min-width: 320px) {
+  @media only screen and (max-width: 767px) {
     display: none;
   }
 
   @media only screen and (min-width: 768px) {
     @include mixins.flexbox(space-between, flex-start, row);
   }
+
+  & a:hover {
+    text-decoration: none;
+  }
 }
 
 //
-// hamburger mobile
+// mobile menu (hamburger)
 .nav-mobile-wrapper {
-  @media only screen and (min-width: 320px) {
+  @media only screen and (max-width: 767px) {
     @include mixins.flexbox(center, center, row);
     width: 44px;
     height: 37px;
-    background-color: variables.$nav-menu-bg-color;
+    background-color: variables.$nav-bg-color-mobile-hamburger;
     position: relative;
   }
 
@@ -110,7 +118,12 @@ a:hover {
   }
 }
 
-.hamburger {
+.nav-mobile {
+  gap: 2px;
+  cursor: pointer;
+  width: 44px;
+  height: 37px;
+
   &::before,
   &::after,
   & input {
@@ -120,14 +133,13 @@ a:hover {
     background-color: variables.$footer-headline-fcolor;
     border-radius: 5px;
     transform-origin: left center;
-    transition: opacity 200ms ease-in-out, width 200ms ease-in-out,
-      rotate 200ms ease-in-out, translate 200ms ease-in-out,
-      background-color 200ms ease-in-out, margin-left 200ms ease-in-out;
+    transition: opacity 100ms ease-in-out, width 100ms ease-in-out,
+      rotate 100ms ease-in-out, translate 100ms ease-in-out,
+      background-color 100ms ease-in-out, margin-left 100ms ease-in-out;
   }
 
   & input {
     appearance: none;
-    padding: 0px;
     margin: 0px;
     outline: none;
     pointer-events: none;
@@ -138,66 +150,59 @@ a:hover {
     width: 0;
   }
 
+  &:has(input:checked)::before,
+  &:has(input:checked)::after {
+    width: calc(calc(2px * 3 + 2px * 2) * 1.41421356);
+    margin-left: 5px;
+  }
+
   &:has(input:checked)::before {
     rotate: 45deg;
-    width: calc(calc(2px * 3 + 2px * 2) * 1.41421356);
     translate: 0 calc(2px / -2);
-    margin-left: 5px;
   }
 
   &:has(input:checked)::after {
     rotate: -45deg;
-    width: calc(calc(2px * 3 + 2px * 2) * 1.41421356);
     translate: 0 calc(2px / 2);
-    margin-left: 5px;
   }
 
-  @include mixins.flexbox(center, center, column);
-  gap: 2px;
-  position: absolute;
-  z-index: 1;
-  cursor: pointer;
-  width: 44px;
-  height: 37px;
+  &:has(input:checked) .nav-mobile__list {
+    width: 182px;
+    height: 208px;
+    background-color: variables.$nav-bg-color-mobile-list;
+    @include mixins.flexbox(space-between, flex-start, column);
+    padding: 4.5px 0px;
+    position: absolute;
+    top: 37px;
+    right: 0px;
+    font-size: variables.$font-size-s;
+    line-height: variables.$line-height-m;
+    text-transform: uppercase;
+  }
+
+  &:has(input:checked) .nav-mobile__item:hover {
+    background-color: variables.$nav-bg-color-mobile-hover;
+    width: 100%;
+    color: variables.$menu-hover-fcolor;
+  }
+
+  &__item {
+    box-sizing: border-box;
+    display: inline-block;
+    padding-left: 13px;
+    height: 20px;
+    @include mixins.flexbox(flex-start, center, row);
+
+    & > a {
+      width: 169px;
+    }
+  }
 }
 
 //
-// menu mobile
-.nav-mobile {
+// mobile menu (list)
+.nav-mobile__list {
   display: none;
-}
-
-.hamburger:has(input:checked) .nav-mobile {
-  width: 182px;
-  height: 208px;
-  background-color: variables.$nav-bg-color-mobile;
-  @include mixins.flexbox(space-between, flex-start, column);
-  padding: 4.5px 0px 4.5px 0px;
-  position: absolute;
-  top: 35px;
-  right: 0px;
-  z-index: 0;
-  font-size: variables.$font-size-s;
-  line-height: variables.$line-height-m;
-  text-transform: uppercase;
-}
-
-.hamburger:has(input:checked) .nav-mobile__item:hover {
-  background-color: variables.$nav-bg-color-mobile-hover;
-  width: 100%;
-  color: variables.$menu-hover-fcolor;
-}
-
-.nav-mobile__item {
-  box-sizing: border-box;
-  display: inline-block;
-  padding-left: 13px;
-  height: 28px;
-  @include mixins.flexbox(start, center, row);
-
-  & > a {
-    width: 169px;
-  }
 }
 
 .nav__item,
@@ -214,6 +219,7 @@ a:hover {
 
 .nav__item {
   font-size: variables.$font-size-s;
+  letter-spacing: 1.1px;
 
   &:hover {
     color: variables.$menu-hover-fcolor;
@@ -221,31 +227,23 @@ a:hover {
 }
 
 //
-// Main
+// MAIN
 // main pictures
-// !!!!!!!!!!!!!!!!!!!!!!! повтор длины с контенйнером
 .main-picture {
   background-image: url("../images/header.avif");
   background-size: cover;
-  @media only screen and (width: 320px) {
-    height: 150px;
-    width: 320px;
-  }
 
-  @media only screen and (min-width: 321px) {
+  @media only screen and (max-width: 767px) {
     height: 47vw;
-    width: auto;
     background-position: center;
   }
 
   @media only screen and (min-width: 768px) {
     height: 361px;
-    width: 768px;
   }
 
-  @media only screen and (min-width: 1120px) {
+  @media only screen and (min-width: 1200px) {
     height: 550px;
-    width: 1120px;
   }
 }
 //
@@ -253,14 +251,14 @@ a:hover {
 //
 // reccent posts
 .posts-wrapper {
-  @media only screen and (width: 320px) {
-    padding: 42px 0px 0px 0px;
+  @media only screen and (max-width: 320px) {
+    padding-top: 39px;
     @include mixins.flexbox(center, flex-start, column);
   }
 
   @media only screen and (min-width: 321px) {
-    padding: 42px 0px 0px 0px;
-    @include mixins.flexbox(center, center, column);
+    padding-top: 42px;
+    @include mixins.flexbox(center, flex-start, column);
   }
 
   @media only screen and (min-width: 768px) {
@@ -268,13 +266,16 @@ a:hover {
     @include mixins.flexbox(center, flex-start, column);
   }
 
-  @media only screen and (min-width: 1120px) {
-    padding: 69px 0px 37px;
+  @media only screen and (min-width: 1200px) {
+    padding: 67px 0px 68px;
   }
 }
 
-.headline {
-  @media only screen and (min-width: 320px) {
+.headline,
+.posts__headline {
+  font-weight: variables.$font-weight-l;
+
+  @media only screen and (max-width: 767px) {
     font-size: variables.$font-size-l;
   }
 
@@ -283,23 +284,19 @@ a:hover {
   }
 }
 
-.headline,
-.posts__headline {
-  font-weight: variables.$font-weight-l;
-}
-
-.headline,
-.posts__headline {
-  font-weight: variables.$font-weight-l;
-}
-
 .headline {
   padding-bottom: 24px;
   line-height: variables.$line-height-m;
+  letter-spacing: -0.2px;
 
   &::before {
     content: "-";
     margin-right: 5px;
+  }
+
+  @media only screen and (max-width: 320px) {
+    letter-spacing: -0.8px;
+    padding-bottom: 22px;
   }
 }
 
@@ -309,8 +306,9 @@ a:hover {
 }
 
 .posts {
-  @media only screen and (min-width: 320px) {
-    // width: 555px;
+  grid-row-gap: 32px;
+
+  @media only screen and (max-width: 767px) {
     grid-template-columns: 1fr;
   }
 
@@ -319,14 +317,12 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
-  @media only screen and (min-width: 1120px) {
+  @media only screen and (min-width: 1200px) {
     width: 100%;
-    height: 355px;
+    height: 312px;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 55px;
+    grid-column-gap: 50px;
   }
-
-  grid-row-gap: 32px;
 }
 
 .posts__post,
@@ -335,24 +331,14 @@ a:hover {
 }
 
 .posts__post {
-  @media only screen and (min-width: 320px) {
+  @media only screen and (max-width: 767px) {
     display: block;
     height: 196px;
   }
 
   @media only screen and (min-width: 768px) {
     @include mixins.flexbox(space-between, flex-start, row);
-    height: 140px;
-  }
-}
-
-.posts__post--mobile {
-  @media only screen and (min-width: 320px) {
-    display: none;
-  }
-
-  @media only screen and (min-width: 768px) {
-    display: flex;
+    width: 555px;
   }
 }
 
@@ -361,118 +347,122 @@ a:hover {
   height: 140px;
 }
 
-.posts__text {
-  @media only screen and (min-width: 320px) {
-    width: auto;
-  }
-
-  @media only screen and (min-width: 768px) {
-    width: 374px;
-  }
-}
-
-.posts__headline {
-  @media only screen and (min-width: 320px) {
-    font-size: variables.$font-size-l;
-  }
-
-  @media only screen and (min-width: 768px) {
-    font-size: variables.$font-size-xl;
-  }
-}
-
 .posts__headline {
   text-transform: capitalize;
   line-height: variables.$line-height-xxl;
 }
 
 .posts__links {
-  @media only screen and (min-width: 320px) {
+  color: variables.$main-small-text-fcolor;
+  line-height: variables.$line-height-s;
+  margin-bottom: 7px;
+  margin-top: 2px;
+  text-transform: capitalize;
+
+  @media only screen and (max-width: 767px) {
     font-size: variables.$font-size-s;
   }
 
   @media only screen and (min-width: 768px) {
     font-size: variables.$font-size-m;
   }
-
-  color: variables.$main-small-text-fcolor;
-  line-height: variables.$line-height-s;
-  margin-bottom: 13px;
 }
 
 .posts__links__decor {
   display: inline-block;
-  margin: 0px 10px;
+
+  @media only screen and (max-width: 767px) {
+    margin: 0px 8px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    margin: 0px 12px;
+  }
 }
 
 .posts__paragraph {
-  @media only screen and (min-width: 320px) {
+  font-size: variables.$font-size-l;
+  color: variables.$main-paragraph-fcolor;
+  line-height: variables.$line-height-l;
+  width: 404px;
+
+  @media only screen and (max-width: 767px) {
     display: none;
   }
 
   @media only screen and (min-width: 768px) {
     display: block;
   }
-
-  font-size: variables.$font-size-l;
-  color: variables.$main-paragraph-fcolor;
-  line-height: variables.$line-height-l;
-  width: 404px;
 }
 //
 
 //
 // instagram shots
 .shots-wrapper {
-  @media only screen and (width: 320px) {
-    // padding: 78px 47px 45px 0px;
-    padding: 78px 0px 45px 0px;
-    align-items: start;
+  @media only screen and (max-width: 767px) {
+    padding: 69px 0px 41px;
     background-color: variables.$main-bg-color-mobile;
-  }
-
-  @media only screen and (min-width: 321px) {
-    // padding: 78px 47px 45px 0px;
-    padding: 78px 0px 45px 0px;
-    align-items: center;
-    background-color: variables.$main-bg-color-mobile;
+    @include mixins.flexbox(space-between, flex-start, column);
   }
 
   @media only screen and (min-width: 768px) {
-    padding: 46.5px 0px 50px 0px;
-    align-items: center;
+    padding: 46.5px 0px 50px;
     background-color: variables.$main-bg-color;
   }
 
-  @media only screen and (min-width: 1120px) {
-    padding: 46.5px 0px 49px;
+  @media only screen and (min-width: 1200px) {
+    padding: 46px 0px 49px;
   }
 }
 
 .shots-text {
-  @media only screen and (min-width: 320px) {
+  font-size: variables.$font-size-m-pluse;
+  letter-spacing: -0.6px;
+  @extend .headline;
+  &::before {
+    content: "";
+  }
+
+  @media only screen and (max-width: 767px) {
     display: none;
   }
 
   @media only screen and (min-width: 768px) {
     display: block;
   }
+}
 
-  font-size: variables.$font-size-l - 1px;
-  @extend .headline;
+.headline--shots--mobile {
+  display: none;
+
+  @media only screen and (max-width: 320px) {
+    display: block;
+    padding-bottom: 13px;
+    padding-top: 13px;
+  }
 }
 
 .headline--shots {
+  @media only screen and (max-width: 320px) {
+    display: none;
+  }
+
+  @media only screen and (min-width: 321px) {
+    display: block;
+  }
+
   @media only screen and (min-width: 768px) {
     padding-bottom: 35.5px;
   }
 
-  @media only screen and (min-width: 1120px) {
+  @media only screen and (min-width: 1200px) {
     padding-bottom: 0px;
   }
 }
 
 .shots {
+  grid-template-columns: repeat(4, 1fr);
+
   @media only screen and (min-width: 320px) {
     width: 301px;
     height: 301px;
@@ -484,13 +474,11 @@ a:hover {
     grid-column-gap: 9px;
   }
 
-  @media only screen and (min-width: 1120px) {
+  @media only screen and (min-width: 1200px) {
     width: auto;
     height: 285px;
     grid-column-gap: 10px;
   }
-
-  grid-template-columns: repeat(4, 1fr);
 }
 
 .shot {
@@ -502,48 +490,27 @@ a:hover {
     width: 249px;
   }
 
-  @media only screen and (min-width: 1120px) {
+  @media only screen and (min-width: 1200px) {
     width: auto;
   }
 }
 
-.shot--mobile {
-  @media only screen and (min-width: 320px) {
-    display: none;
-  }
-
-  @media only screen and (min-width: 768px) {
-    display: inline;
-  }
-}
-
-.shot--tablet {
-  @media only screen and (min-width: 768px) {
-    display: none;
-  }
-
-  @media only screen and (min-width: 1120px) {
-    display: inline;
-  }
-}
-
 //
-// Footer
+// FOOTER
 .footer {
-  @media only screen and (min-width: 320px) {
+  background-color: variables.$footer-bg-color;
+
+  @media only screen and (max-width: 767px) {
     padding: 38px 0px 47px;
-    width: 100%;
   }
 
   @media only screen and (min-width: 768px) {
     padding: 57px 0px 56px;
   }
 
-  @media only screen and (min-width: 1120px) {
+  @media only screen and (min-width: 1200px) {
     padding: 66px 0px 70px;
   }
-
-  background-color: variables.$footer-bg-color;
 }
 
 .headline--footer,
@@ -555,7 +522,11 @@ a:hover {
 }
 
 .headline--footer {
-  padding-bottom: 22px;
+  @media only screen and (max-width: 320px) {
+    padding-bottom: 5px;
+  }
+
+  padding-bottom: 18px;
   color: variables.$footer-headline-fcolor;
 }
 
@@ -564,30 +535,58 @@ a:hover {
   color: variables.$footer-text-fcolor;
 }
 
+.footer__text,
+.footer__contacts {
+  text-align: center;
+}
+
+.footer__text,
+.footer__contacts {
+  @media only screen and (min-width: 768px) {
+    line-height: variables.$line-height-l;
+    font-size: variables.$font-size-xl;
+  }
+}
+
 .footer__text {
-  @media only screen and (min-width: 320px) {
+  @media only screen and (max-width: 320px) {
+    display: none;
+  }
+
+  @media only screen and (max-width: 767px) {
     line-height: variables.$line-height-s;
     font-size: variables.$font-size-m;
     width: 303px;
   }
 
   @media only screen and (min-width: 768px) {
-    line-height: variables.$line-height-l;
-    font-size: variables.$font-size-xl;
     width: 684px;
+    letter-spacing: 0.2px;
   }
 
-  @media only screen and (min-width: 1120px) {
+  @media only screen and (min-width: 1200px) {
     line-height: variables.$line-height-xl;
   }
+}
 
-  text-align: center;
+.footer__text--mobile {
+  @media only screen and (max-width: 320px) {
+    display: block;
+  }
+
+  @media only screen and (min-width: 321px) {
+    display: none;
+  }
 }
 
 .footer__icons {
   @include mixins.flexbox(space-around, flex-start, row);
-  width: 192px;
-  margin: 37px 0px 34px;
+  width: 198px;
+  margin: 31px 0px 34px;
+
+  @media only screen and (max-width: 320px) {
+    margin: 23px 0px 18px;
+  }
 }
 
 .footer__icon {
@@ -595,43 +594,34 @@ a:hover {
   height: 34px;
   width: 34px;
   border-radius: 50%;
-}
 
-.footer__icon--yellow {
-  border: 1px solid hsl(29, 93%, 58%);
-}
+  &--yellow {
+    border: 1px solid hsl(29, 93%, 58%);
+  }
 
-.footer__icon--blue {
-  border: 1px solid hsl(221, 47%, 42%);
-}
+  &--blue {
+    border: 1px solid hsl(221, 47%, 42%);
+  }
 
-.footer__icon--cyan {
-  border: 1px solid hsl(199, 74%, 58%);
-}
+  &--cyan {
+    border: 1px solid hsl(199, 74%, 58%);
+  }
 
-.footer__icon--pink {
-  border: 1px solid hsl(326, 56%, 67%);
-}
+  &--pink {
+    border: 1px solid hsl(326, 56%, 67%);
+  }
 
-.footer__icon--red {
-  border: 1px solid hsl(356, 72%, 47%);
+  &--red {
+    border: 1px solid hsl(356, 72%, 47%);
+  }
 }
 
 .footer__contacts {
-  @media only screen and (min-width: 320px) {
+  @media only screen and (max-width: 767px) {
     font-size: variables.$font-size-l;
     line-height: variables.$line-height-m-footer-mobile;
     width: 235px;
-    display: inline;
   }
-
-  @media only screen and (min-width: 768px) {
-    font-size: variables.$font-size-xl;
-    line-height: variables.$line-height-l;
-    width: auto;
-    @include mixins.flexbox(flex-start, flex-start, row);
-  }
-
   > p {
     display: inline-block;
   }
@@ -639,14 +629,49 @@ a:hover {
   > a:first-of-type {
     display: inline-block;
   }
-
-  text-align: center;
 }
 
-.posts__links__decor--mobile {
-  @media only screen and (min-width: 320px) {
+//
+
+@media only screen and (max-width: 767px) {
+  .posts__post--mobile {
+    display: none;
+  }
+
+  .shot--mobile {
+    display: none;
+  }
+
+  .posts__links__decor--mobile {
     margin: 0px 0px 0px 5px;
-    display: inline-block;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .posts__text {
+    padding-top: 8px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .posts__text {
+    width: 374px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .shot--tablet {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .posts__post:nth-child(even) {
+    order: 2;
+  }
+
+  .posts__post:nth-child(odd) {
+    order: 1;
   }
 }
 //

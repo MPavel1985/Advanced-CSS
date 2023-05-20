@@ -1,7 +1,7 @@
 const { src, dest, watch, series, parallel } = require("gulp");
 
 const sass = require("gulp-sass")(require("sass"));
-// const scss = require("postcss-scss");
+// const scss = require("postcss-scss"); - удалил
 const postcss = require("gulp-postcss");
 const autoprefixer = require("gulp-autoprefixer");
 const concat = require("gulp-concat");
@@ -69,7 +69,7 @@ function doReplace() {
       .pipe(replace('href="css/reset.css"', 'href="dist/css/reset.css"'))
       .pipe(replace('src="js/main.min.js"', 'src="dist/js/main.min.js"'))
       .pipe(replace(/(src|href)=["']\.\.\/images/g, '$1="dist/images'))
-      // ! root folder (".") here we use because we have this condition in DAN-IT HW. instead of this use "dist" - for index.html in dist-folder
+      // ! root folder (".") here we use because we have this condition in DAN-IT HW. instead of this use "dist" - for creating index.html in dist-folder
       .pipe(dest("."))
   );
 }
@@ -85,7 +85,6 @@ function watching() {
   watch(["src/scss/*.scss"], styles);
   watch(["src/js/main.js"], scripts);
   watch(["src/pages/index.html"], doHtml);
-  // watch(["src/index.html"]).on("change", browserSync.reload);
 }
 
 function cleanDist() {
@@ -120,6 +119,3 @@ exports.doReplace = doReplace;
 
 exports.default = parallel(images, fonts, styles, scripts, doHtml, watching);
 exports.build = series(cleanDist, building, doReplace);
-
-// exports.build = parallel(cleanDist, styles, scripts, images, fonts);
-// exports.dev = parallel(watching, building, buildingPage);

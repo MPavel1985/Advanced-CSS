@@ -1,7 +1,6 @@
 //
 // font color
 $menu-hover-fcolor: hsla(180, 31%, 49%, 1);
-$nav-menu-bg-color: hsla(0, 0%, 0%, 1);
 
 $main-headline-fcolor: hsla(0, 0%, 31%, 1);
 $main-paragraph-fcolor: hsla(0, 0%, 36%, 1);
@@ -15,7 +14,9 @@ $footer-text-fcolor: hsla(0, 0%, 73%, 1);
 // font size
 $font-size-s: 11px;
 $font-size-m: 12px;
+$font-size-m-pluse: 13px;
 $font-size-l: 14px;
+$font-size-l-pluse: 15px;
 $font-size-xl: 16px;
 //
 
@@ -32,14 +33,17 @@ $line-height-m: 22px;
 $line-height-m-footer-mobile: 24px;
 $line-height-l: 26px;
 $line-height-xl: 28px;
-$line-height-xxl: 30px;
+$line-height-xxl: 27px;
 //
 
 //
 // background color
-$nav-bg-color-mobile: hsla(0, 0%, 96%, 1);
+$nav-bg-color-mobile-hamburger: hsla(0, 0%, 0%, 1);
+$nav-bg-color-mobile-list: hsla(0, 0%, 96%, 1);
 $nav-bg-color-mobile-hover: hsl(0, 0%, 90%);
+
 $main-bg-color: hsl(0, 0%, 97%);
 $main-bg-color-mobile: hsl(0, 0%, 100%);
+
 $footer-bg-color: hsla(0, 0%, 0%, 1);
 //
